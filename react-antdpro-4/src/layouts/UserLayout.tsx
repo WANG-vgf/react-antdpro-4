@@ -1,8 +1,8 @@
 import { MenuDataItem, getMenuData, getPageTitle } from '@ant-design/pro-layout';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Link, useIntl, ConnectProps, connect } from 'umi';
-import React from 'react';
-// import SelectLang from '@/components/SelectLang';
+import React from 'react'; // import SelectLang from '@/components/SelectLang';
+
 import { ConnectState } from '@/models/connect';
 import logo from '../assets/logo.png';
 import styles from './UserLayout.less';
@@ -26,11 +26,10 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
       pathname: '',
     },
   } = props;
-  const { formatMessage } = useIntl();
+  const {} = useIntl();
   const { breadcrumb } = getMenuData(routes);
   const title = getPageTitle({
     pathname: location.pathname,
-    formatMessage,
     breadcrumb,
     ...props,
   });
@@ -43,7 +42,7 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
 
       <div className={styles.container}>
         {/* <div className={styles.lang}>
-          <SelectLang />
+         <SelectLang />
         </div> */}
         <div className={styles.content}>
           <div className={styles.top}>

@@ -10,8 +10,8 @@ import ProLayout, {
   DefaultFooter,
 } from '@ant-design/pro-layout';
 import React, { useEffect } from 'react';
-import { Link, useIntl, connect, Dispatch } from 'umi';
-// import { GithubOutlined } from '@ant-design/icons';
+import { Link, useIntl, connect, Dispatch } from 'umi'; // import { GithubOutlined } from '@ant-design/icons';
+
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
@@ -56,12 +56,7 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
     return Authorized.check(item.authority, localItem, null) as MenuDataItem;
   });
 
-const defaultFooterDom = (
-  <DefaultFooter
-    copyright={false}
-    links={false}
-  />
-);
+const defaultFooterDom = <DefaultFooter copyright={false} links={false} />;
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const {
@@ -99,12 +94,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
-  const { formatMessage } = useIntl();
-
+  const {} = useIntl();
   return (
     <ProLayout
       logo={logo}
-      formatMessage={formatMessage}
       menuHeaderRender={(logoDom, titleDom) => (
         <Link to="/">
           {logoDom}
@@ -122,7 +115,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       breadcrumbRender={(routers = []) => [
         {
           path: '/',
-          breadcrumbName: formatMessage({ id: 'menu.home' }),
+          breadcrumbName: '首页',
         },
         ...routers,
       ]}
