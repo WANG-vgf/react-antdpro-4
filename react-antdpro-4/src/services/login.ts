@@ -8,7 +8,7 @@ export interface LoginParamsType {
 }
 
 export async function fakeAccountLogin(params: LoginParamsType) {
-  return request('https://cs1.gzqqs.com/qqs/appindex/login.do', {
+  return request('https://test-nicekuf.gzqqs.com/admin/login/accountadmin', {
     method: 'POST',
     data: params,
   });

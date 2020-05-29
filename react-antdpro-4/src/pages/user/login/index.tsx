@@ -51,7 +51,7 @@ const Login: React.FC<LoginProps> = (props) => {
             <LoginMessage content="账户或密码错误" />
           )}
           <UserName
-            name="userName"
+            name="username"
             placeholder="请输入用户名"
             rules={[
               {
