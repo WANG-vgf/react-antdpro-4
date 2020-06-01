@@ -2,8 +2,9 @@
  * request 网络请求工具
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
-import { extend } from 'umi-request';
+import { extend, RequestOptionsInit } from 'umi-request';
 import { notification } from 'antd';
+import { history } from 'umi'
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -26,24 +27,50 @@ const codeMessage = {
 /**
  * 异常处理程序
  */
-const errorHandler = (error: { response: Response }): Response => {
+const errorHandler = (error: { response: Response }): Response | void => {
   const { response } = error;
-  if (response && response.status) {
-    const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
+  const { status, url, statusText } = response;
 
-    notification.error({
-      message: `请求错误 ${status}: ${url}`,
-      description: errorText,
-    });
-  } else if (!response) {
-    notification.error({
-      description: '您的网络发生异常，无法连接服务器',
-      message: '网络异常',
-    });
+  if (response && status >= 200 && status < 300) {
+    return response;
   }
-  return response;
+
+  const errorText = codeMessage[status] || statusText;
+
+  notification.error({
+    message: `请求错误 ${status}: ${url}`,
+    description: errorText,
+  });
+
+  if (status === 401) {
+    notification.error({
+      message: '未登录或登录已过期，请重新登录。',
+    });
+    (<any>window).g_app._store.dispatch({
+      type: 'login/logout',
+    });
+    window.location.reload();
+    return;
+  }
+
+  if (status === 403) {
+    history.push('/exception/403');
+    return;
+  }
+
+  if (status === 500) {
+    history.push('/exception/500');
+    return;
+  }
+
+  const myError: any = new Error(errorText);
+  myError.name = response.status;
+  myError.response = response;
+  throw error;
 };
+
+export const DOMAIN =
+  process.env.NODE_ENV === 'production' ? `http://staging.qiuzhi99.com` : `http://staging.qiuzhi99.com`;
 
 /**
  * 配置request请求时的默认参数
@@ -51,7 +78,20 @@ const errorHandler = (error: { response: Response }): Response => {
 const request = extend({
   errorHandler, // 默认错误处理
   credentials: 'same-origin', // 默认请求是否带上cookie
-  // credentials: 'include', // 默认请求是否带上cookie
+  prefix: `${DOMAIN}/api`,
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
 });
 
-export default request;
+const myRequest = (url: string, options: RequestOptionsInit | undefined = {}) => {
+  return request(url, {
+    ...options,
+    headers: {
+      ...options!.headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+};
+
+export default myRequest;

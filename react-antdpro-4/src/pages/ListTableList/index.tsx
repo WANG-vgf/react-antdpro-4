@@ -162,6 +162,7 @@ const TableList: React.FC<{}> = () => {
             setSorter(`${sorterResult.field}_${sorterResult.order}`);
           }
         }}
+        search={false}
         params={{
           sorter,
         }}

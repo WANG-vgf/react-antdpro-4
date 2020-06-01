@@ -1,9 +1,10 @@
 import { stringify } from 'querystring';
 import { history, Reducer, Effect } from 'umi';
 
-import { fakeAccountLogin } from '@/services/login';
-import { setAuthority } from '@/utils/authority';
+// import { fakeAccountLogin } from '@/services/login';
+// import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
+import { reloadAuthorized } from '@/utils/Authorized';
 
 export interface StateType {
   status?: 'ok' | 'error';
@@ -32,12 +33,18 @@ const Model: LoginModelType = {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      // const response = yield call(fakeAccountLogin, payload);
+      const response = {
+        status: 'ok',
+        // type,
+        currentAuthority: 'admin',
+        token: 'ecadkfialdsffls23sdkaw1243fcld690s.2msdif32lkda11llsdievbv2'
+      };
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
-      // Login successfully
+      // 登陆成功
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -54,6 +61,10 @@ const Model: LoginModelType = {
             return;
           }
         }
+        //设置token
+        localStorage.setItem('token', response.token);
+        //刷新权限
+        reloadAuthorized();
         history.replace(redirect || '/');
       }
     },
@@ -62,6 +73,7 @@ const Model: LoginModelType = {
       const { redirect } = getPageQuery();
       // Note: There may be security issues, please note
       if (window.location.pathname !== '/user/login' && !redirect) {
+        localStorage.removeItem('token');
         history.replace({
           pathname: '/user/login',
           search: stringify({
@@ -74,7 +86,7 @@ const Model: LoginModelType = {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
+      // setAuthority(payload.currentAuthority);
       return {
         ...state,
         status: payload.status,
