@@ -4,7 +4,9 @@
  */
 import { extend, RequestOptionsInit } from 'umi-request';
 import { notification } from 'antd';
+import { getPageQuery } from './utils';
 import { history } from 'umi'
+import { stringify } from 'qs';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -30,6 +32,7 @@ const codeMessage = {
 const errorHandler = (error: { response: Response }): Response | void => {
   const { response } = error;
   const { status, url, statusText } = response;
+  console.log(response);
 
   if (response && status >= 200 && status < 300) {
     return response;
@@ -42,26 +45,54 @@ const errorHandler = (error: { response: Response }): Response | void => {
     description: errorText,
   });
 
-  if (status === 401) {
+  if (status === 500 && url === 'https://test-nicekuf.gzqqs.com/base/v1/basemenu/getmenu') {
     notification.error({
       message: '未登录或登录已过期，请重新登录。',
     });
-    (<any>window).g_app._store.dispatch({
-      type: 'login/logout',
-    });
+    const { redirect } = getPageQuery();
+    if (window.location.pathname !== '/user/login' && !redirect) {
+      localStorage.removeItem('access_token');
+      history.replace({
+        pathname: '/user/login',
+        search: stringify({
+          redirect: window.location.href,
+        }),
+      });
+    }
     window.location.reload();
     return;
   }
 
-  if (status === 403) {
-    history.push('/exception/403');
+  if (status === 401) {
+    notification.error({
+      message: '未登录或登录已过期，请重新登录。',
+    });
+    // (<any>window).g_app._store.dispatch({
+    //   type: 'login/logout',
+    // });
+    const { redirect } = getPageQuery();
+    if (window.location.pathname !== '/user/login' && !redirect) {
+      localStorage.removeItem('access_token');
+      history.replace({
+        pathname: '/user/login',
+        search: stringify({
+          redirect: window.location.href,
+        }),
+      });
+    }
+    window.location.reload();
     return;
   }
 
-  if (status === 500) {
-    history.push('/exception/500');
-    return;
-  }
+  // if (status === 403) {
+  //   history.push('/exception/403');
+  //   return;
+  // }
+
+  // if (status === 500) {
+  //   history.push('/exception/500');
+  //   return;
+  // }
 
   const myError: any = new Error(errorText);
   myError.name = response.status;
@@ -70,7 +101,7 @@ const errorHandler = (error: { response: Response }): Response | void => {
 };
 
 export const DOMAIN =
-  process.env.NODE_ENV === 'production' ? `http://staging.qiuzhi99.com` : `http://staging.qiuzhi99.com`;
+  process.env.NODE_ENV === 'production' ? `https://test-nicekuf.gzqqs.com` : `https://test-nicekuf.gzqqs.com`;
 
 /**
  * 配置request请求时的默认参数
@@ -78,20 +109,23 @@ export const DOMAIN =
 const request = extend({
   errorHandler, // 默认错误处理
   credentials: 'same-origin', // 默认请求是否带上cookie
-  prefix: `${DOMAIN}/api`,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  },
+  prefix: `${DOMAIN}`,
+  // getResponse: true,
+  // headers: {
+  //   'Authorization': !localStorage.access_token ? '' : 'Bearer ' + localStorage.access_token,
+  //   'Content-Type': 'application/x-www-form-urlencoded'
+  // },
 });
 
-const myRequest = (url: string, options: RequestOptionsInit | undefined = {}) => {
+const aRequest = (url: string, options: RequestOptionsInit | undefined = {}) => {
   return request(url, {
     ...options,
     headers: {
       ...options!.headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Authorization': !localStorage.access_token ? '' : 'Bearer ' + localStorage.access_token,
+      'Content-Type': 'application/x-www-form-urlencoded'
     },
   });
 };
 
-export default myRequest;
+export default aRequest;

@@ -21,36 +21,23 @@ export default [
         routes: [
           {
             path: '/',
-            redirect: '/list',
+            redirect: '/welcome',
           },
           {
-            path: '/admin',
-            name: 'admin',
-            icon: 'crown',
-            component: './Admin',
-            authority: ['other'],
-            routes: [
-              {
-                path: '/admin/sub-page',
-                name: 'sub-page',
-                icon: 'smile',
-                component: './ListTableList',
-                authority: ['admin'],
-              },
-            ],
+            path: '/welcome',
+            name: 'welcome',
+            icon: 'smile',
+            component: './Welcome',
           },
           {
-            name: '示例列表',
+            path: '/FinanceControl',
+            name: 'FinanceControl',
             icon: 'table',
-            path: '/list',
-            // component: './ListTableList',
             routes: [
               {
-                path: '/list/sub-page',
-                name: 'sub-page',
-                icon: 'smile',
-                component: './ListTableList',
-                authority: ['admin'],
+                path: '/FinanceControl/FinanceList',
+                name: 'FinanceList',
+                component: './FinanceControl/FinanceList/index',
               },
             ],
           },

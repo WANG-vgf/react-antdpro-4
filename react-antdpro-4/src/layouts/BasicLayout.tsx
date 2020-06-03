@@ -50,11 +50,11 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
  * use Authorized check all menu item
  */
 
-const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
-  menuList.map((item) => {
-    const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
-    return Authorized.check(item.authority, localItem, null) as MenuDataItem;
-  });
+// const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
+//   menuList.map((item) => {
+//     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
+//     return Authorized.check(item.authority, localItem, null) as MenuDataItem;
+//   });
 
 const defaultFooterDom = <DefaultFooter copyright={false} links={false} />;
 
@@ -63,6 +63,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     dispatch,
     children,
     settings,
+    menuData,
     location = {
       pathname: '/',
     },
@@ -75,6 +76,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     if (dispatch) {
       dispatch({
         type: 'user/fetchCurrent',
+      });
+      dispatch({
+        type: 'user/getMenu',
       });
     }
   }, []);
@@ -94,7 +98,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
-  const {} = useIntl();
+  const { } = useIntl();
   return (
     <ProLayout
       logo={logo}
@@ -109,7 +113,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
           return defaultDom;
         }
-
         return <Link to={menuItemProps.path}>{defaultDom}</Link>;
       }}
       breadcrumbRender={(routers = []) => [
@@ -124,11 +127,11 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         return first ? (
           <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
         ) : (
-          <span>{route.breadcrumbName}</span>
-        );
+            <span>{route.breadcrumbName}</span>
+          );
       }}
       footerRender={() => defaultFooterDom}
-      menuDataRender={menuDataRender}
+      menuDataRender={() => menuData!}
       rightContentRender={() => <RightContent />}
       {...props}
       {...settings}
@@ -140,7 +143,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   );
 };
 
-export default connect(({ global, settings }: ConnectState) => ({
+export default connect(({ global, settings, user }: ConnectState) => ({
   collapsed: global.collapsed,
   settings,
+  menuData: user.menuData
 }))(BasicLayout);

@@ -11,3 +11,9 @@ export async function queryCurrent(): Promise<any> {
 export async function queryNotices(): Promise<any> {
   return request('/notices');
 }
+
+export async function getMenu(): Promise<any> {
+  return request('/base/v1/basemenu/getmenu', {
+    method: 'POST'
+  });
+}

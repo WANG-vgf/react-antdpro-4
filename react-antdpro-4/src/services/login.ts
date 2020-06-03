@@ -1,16 +1,16 @@
 import request from '@/utils/request';
-
+import Qs from 'qs'
 export interface LoginParamsType {
-  userName: string;
+  username: string;
   password: string;
   // mobile: string;
   // captcha: string;
 }
 
 export async function fakeAccountLogin(params: LoginParamsType) {
-  return request('/admin/login/accountadmin', {
+  return request('/admin/login/token', {
     method: 'POST',
-    data: params,
+    data: Qs.stringify(params),
   });
 }
 

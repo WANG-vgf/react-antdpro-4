@@ -1,13 +1,13 @@
 import { stringify } from 'querystring';
 import { history, Reducer, Effect } from 'umi';
 
-// import { fakeAccountLogin } from '@/services/login';
-// import { setAuthority } from '@/utils/authority';
+import { fakeAccountLogin } from '@/services/login';
+import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
 
 export interface StateType {
-  status?: 'ok' | 'error';
+  status?: '0' | 'error';
   type?: string;
   currentAuthority?: 'user' | 'guest' | 'admin';
 }
@@ -33,19 +33,16 @@ const Model: LoginModelType = {
 
   effects: {
     *login({ payload }, { call, put }) {
-      // const response = yield call(fakeAccountLogin, payload);
-      const response = {
-        status: 'ok',
-        // type,
-        currentAuthority: 'admin',
-        token: 'ecadkfialdsffls23sdkaw1243fcld690s.2msdif32lkda11llsdievbv2'
-      };
+      const response = yield call(fakeAccountLogin, payload);
+      response.currentAuthority = 'admin'
+      // status: 'ok',
+      // currentAuthority: 'admin',
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
       // 登陆成功
-      if (response.status === 'ok') {
+      if (response.code === 0) {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params as { redirect: string };
@@ -61,8 +58,8 @@ const Model: LoginModelType = {
             return;
           }
         }
-        //设置token
-        localStorage.setItem('token', response.token);
+        //设置access_token
+        localStorage.setItem('access_token', response.data.access_token);
         //刷新权限
         reloadAuthorized();
         history.replace(redirect || '/');
@@ -73,7 +70,7 @@ const Model: LoginModelType = {
       const { redirect } = getPageQuery();
       // Note: There may be security issues, please note
       if (window.location.pathname !== '/user/login' && !redirect) {
-        localStorage.removeItem('token');
+        localStorage.removeItem('access_token');
         history.replace({
           pathname: '/user/login',
           search: stringify({
@@ -86,7 +83,7 @@ const Model: LoginModelType = {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      // setAuthority(payload.currentAuthority);
+      setAuthority(payload.currentAuthority);
       return {
         ...state,
         status: payload.status,

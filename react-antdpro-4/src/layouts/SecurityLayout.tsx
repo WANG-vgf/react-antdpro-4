@@ -29,6 +29,9 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
       dispatch({
         type: 'user/fetchCurrent',
       });
+      dispatch({
+        type: 'user/getMenu',
+      });
     }
   }
 
