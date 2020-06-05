@@ -25,6 +25,13 @@ export const isAntDesignProOrDev = (): boolean => {
 
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
+export const setKeys =(arr: any[], x?: string): any[] => {
+  arr.map(item => {
+    !x ? item.key = item.id : item.key = item[x];
+  })
+  return arr;
+}
+
 /**
  * props.route.routes
  * @param router [{}]

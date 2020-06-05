@@ -79,9 +79,9 @@ const errorHandler = (error: { response: Response }): Response | void => {
           redirect: window.location.href,
         }),
       });
+      window.location.reload();
+      return;
     }
-    window.location.reload();
-    return;
   }
 
   // if (status === 403) {

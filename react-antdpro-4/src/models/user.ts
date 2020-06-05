@@ -47,6 +47,7 @@ const UserModel: UserModelType = {
 
   state: {
     currentUser: {},
+    menuData: []
   },
 
   effects: {
@@ -93,7 +94,6 @@ const UserModel: UserModelType = {
           authority: 'user'
         })
       })
-      console.log(menuArr);
       yield put({
         type: 'saveMenu',
         payload: menuArr,

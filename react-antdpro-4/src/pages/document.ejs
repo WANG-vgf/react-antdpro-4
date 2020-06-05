@@ -27,185 +27,20 @@
     <noscript>Out-of-the-box mid-stage front/design solution!</noscript>
     <div id="root">
       <style>
-        html,
-        body,
-        #root {
-          height: 100%;
-          margin: 0;
-          padding: 0;
-        }
-        #root {
-          background-image: url('/home_bg.png');
-          background-repeat: no-repeat;
-          background-size: 100% auto;
-        }
-        .page-loading-warp {
-          padding: 98px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .ant-spin {
-          -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-          color: rgba(0, 0, 0, 0.65);
-          font-size: 14px;
-          font-variant: tabular-nums;
-          line-height: 1.5;
-          list-style: none;
-          -webkit-font-feature-settings: 'tnum';
-          font-feature-settings: 'tnum';
-          position: absolute;
-          display: none;
-          color: #1890ff;
-          text-align: center;
-          vertical-align: middle;
-          opacity: 0;
-          -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-          transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-          transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-          transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86),
-            -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-        }
-
-        .ant-spin-spinning {
-          position: static;
-          display: inline-block;
-          opacity: 1;
-        }
-
-        .ant-spin-dot {
-          position: relative;
-          display: inline-block;
-          font-size: 20px;
-          width: 20px;
-          height: 20px;
-        }
-
-        .ant-spin-dot-item {
-          position: absolute;
-          display: block;
-          width: 9px;
-          height: 9px;
-          background-color: #1890ff;
-          border-radius: 100%;
-          -webkit-transform: scale(0.75);
-          -ms-transform: scale(0.75);
-          transform: scale(0.75);
-          -webkit-transform-origin: 50% 50%;
-          -ms-transform-origin: 50% 50%;
-          transform-origin: 50% 50%;
-          opacity: 0.3;
-          -webkit-animation: antSpinMove 1s infinite linear alternate;
-          animation: antSpinMove 1s infinite linear alternate;
-        }
-
-        .ant-spin-dot-item:nth-child(1) {
-          top: 0;
-          left: 0;
-        }
-
-        .ant-spin-dot-item:nth-child(2) {
-          top: 0;
-          right: 0;
-          -webkit-animation-delay: 0.4s;
-          animation-delay: 0.4s;
-        }
-
-        .ant-spin-dot-item:nth-child(3) {
-          right: 0;
-          bottom: 0;
-          -webkit-animation-delay: 0.8s;
-          animation-delay: 0.8s;
-        }
-
-        .ant-spin-dot-item:nth-child(4) {
-          bottom: 0;
-          left: 0;
-          -webkit-animation-delay: 1.2s;
-          animation-delay: 1.2s;
-        }
-
-        .ant-spin-dot-spin {
-          -webkit-transform: rotate(45deg);
-          -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
-          -webkit-animation: antRotate 1.2s infinite linear;
-          animation: antRotate 1.2s infinite linear;
-        }
-
-        .ant-spin-lg .ant-spin-dot {
-          font-size: 32px;
-          width: 32px;
-          height: 32px;
-        }
-
-        .ant-spin-lg .ant-spin-dot i {
-          width: 14px;
-          height: 14px;
-        }
-
-        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-          .ant-spin-blur {
-            background: #fff;
-            opacity: 0.5;
-          }
-        }
-
-        @-webkit-keyframes antSpinMove {
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes antSpinMove {
-          to {
-            opacity: 1;
-          }
-        }
-
-        @-webkit-keyframes antRotate {
-          to {
-            -webkit-transform: rotate(405deg);
-            transform: rotate(405deg);
-          }
-        }
-
-        @keyframes antRotate {
-          to {
-            -webkit-transform: rotate(405deg);
-            transform: rotate(405deg);
-          }
-        }
+         body,html{padding:0;margin:0}.la-ball-climbing-dot,.la-ball-climbing-dot>div{position:relative;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}.la-ball-climbing-dot{display:block;font-size:0;color:#fff;margin-bottom:20px}.la-ball-climbing-dot.la-dark{color:#333}.la-ball-climbing-dot>div{display:inline-block;float:none;color:#5c5c5c;background-color:currentColor;border:0 solid currentColor}.la-ball-climbing-dot{width:42px;height:32px}.la-ball-climbing-dot>div:nth-child(1){position:absolute;bottom:32%;left:18%;width:14px;height:14px;border-radius:100%;-webkit-transform-origin:center bottom;-moz-transform-origin:center bottom;-ms-transform-origin:center bottom;-o-transform-origin:center bottom;transform-origin:center bottom;-webkit-animation:ball-climbing-dot-jump .6s ease-in-out infinite;-moz-animation:ball-climbing-dot-jump .6s ease-in-out infinite;-o-animation:ball-climbing-dot-jump .6s ease-in-out infinite;animation:ball-climbing-dot-jump .6s ease-in-out infinite}.la-ball-climbing-dot>div:not(:nth-child(1)){position:absolute;top:0;right:0;width:14px;height:2px;border-radius:0;-webkit-transform:translate(60%,0);-moz-transform:translate(60%,0);-ms-transform:translate(60%,0);-o-transform:translate(60%,0);transform:translate(60%,0);-webkit-animation:ball-climbing-dot-steps 1.8s linear infinite;-moz-animation:ball-climbing-dot-steps 1.8s linear infinite;-o-animation:ball-climbing-dot-steps 1.8s linear infinite;animation:ball-climbing-dot-steps 1.8s linear infinite}.la-ball-climbing-dot>div:not(:nth-child(1)):nth-child(2){-webkit-animation-delay:0ms;-moz-animation-delay:0ms;-o-animation-delay:0ms;animation-delay:0ms}.la-ball-climbing-dot>div:not(:nth-child(1)):nth-child(3){-webkit-animation-delay:-600ms;-moz-animation-delay:-600ms;-o-animation-delay:-600ms;animation-delay:-600ms}.la-ball-climbing-dot>div:not(:nth-child(1)):nth-child(4){-webkit-animation-delay:-1200ms;-moz-animation-delay:-1200ms;-o-animation-delay:-1200ms;animation-delay:-1200ms}.la-ball-climbing-dot.la-sm{width:20px;height:16px}.la-ball-climbing-dot.la-sm>div:nth-child(1){width:6px;height:6px}.la-ball-climbing-dot.la-sm>div:not(:nth-child(1)){width:6px;height:1px}.la-ball-climbing-dot.la-2x{width:144px;height:84px}.la-ball-climbing-dot.la-2x>div:nth-child(1){width:28px;height:28px}.la-ball-climbing-dot.la-2x>div:not(:nth-child(1)){width:28px;height:4px}.la-ball-climbing-dot.la-3x{width:126px;height:96px}.la-ball-climbing-dot.la-3x>div:nth-child(1){width:42px;height:42px}.la-ball-climbing-dot.la-3x>div:not(:nth-child(1)){width:42px;height:6px}@keyframes ball-climbing-dot-jump{0%{-webkit-transform:scale(1,.7);-moz-transform:scale(1,.7);-o-transform:scale(1,.7);transform:scale(1,.7)}20%{-webkit-transform:scale(.7,1.2);-moz-transform:scale(.7,1.2);-o-transform:scale(.7,1.2);transform:scale(.7,1.2)}40%{-webkit-transform:scale(1,1);-moz-transform:scale(1,1);-o-transform:scale(1,1);transform:scale(1,1)}50%{bottom:125%}46%{-webkit-transform:scale(1,1);-moz-transform:scale(1,1);-o-transform:scale(1,1);transform:scale(1,1)}80%{-webkit-transform:scale(.7,1.2);-moz-transform:scale(.7,1.2);-o-transform:scale(.7,1.2);transform:scale(.7,1.2)}90%{-webkit-transform:scale(.7,1.2);-moz-transform:scale(.7,1.2);-o-transform:scale(.7,1.2);transform:scale(.7,1.2)}100%{-webkit-transform:scale(1,.7);-moz-transform:scale(1,.7);-o-transform:scale(1,.7);transform:scale(1,.7)}}@keyframes ball-climbing-dot-steps{0%{top:0;right:0;opacity:0}50%{opacity:1}100%{top:100%;right:100%;opacity:0}}.loading-box{background-image: url('https://nicekuf.oss-cn-shenzhen.aliyuncs.com/nicekuf/home_bg.png');background-size: 100%;font-size:15px;color:#fff;width:100%;height:100%;position:fixed;display:flex;justify-content:center;align-items:center;flex-direction:column}.loading-box::after{content: "";display: block;position: absolute; top: 0;left: 0;background: rgba(0,0,0,.6);}.loading-box>p{position:relative;width:100%;text-align:center;color:#5c5c5c;margin-top:30px;}.text::after{width:100%;position:absolute;left:0;bottom:-30px;color:#5c5c5c}.p1:after{content:'During hard loading...'}.p2:after{content:'the initial loading will be slow. Please wait patiently.'}.p3:after{content:'If the loading has not been successful, please empty the cache and reload the page.'}
+         /* background:linear-gradient(#5c5c5c, #6a6b6c); */
       </style>
-      <div
-        style="
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          min-height: 420px;
-          height: 100%;
-        "
-      >
-        <img src="/pro_icon.svg" alt="logo" width="256" />
-        <div class="page-loading-warp">
-          <div class="ant-spin ant-spin-lg ant-spin-spinning">
-            <span class="ant-spin-dot ant-spin-dot-spin"
-              ><i class="ant-spin-dot-item"></i><i class="ant-spin-dot-item"></i
-              ><i class="ant-spin-dot-item"></i><i class="ant-spin-dot-item"></i
-            ></span>
+      <div id="app">
+        <div class="loading-box">
+          <div class="la-ball-climbing-dot la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
-        </div>
-        <div style="display: flex; justify-content: center; align-items: center;">
-          <img
-            src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
-            width="32"
-            style="margin-right: 8px;"
-          />
-          Giun.fa
+          <p class="text p1">努力加载中....</p>
+          <p class="text p2">初次加载会比较慢，请耐心等待</p>
+          <p class="text p3">如果一直都没有加载成功，请清空缓存重新加载页面</p>
         </div>
       </div>
     </div>

@@ -1,14 +1,15 @@
-// import { PageLoading } from '@ant-design/pro-layout';
-
-// // loading components from code split
-// // https://umijs.org/plugin/umi-plugin-react.html#dynamicimport
-// export default PageLoading;
 import React from 'react';
 import style from './style.less';
+import {
+  LoadingOutlined,
+} from '@ant-design/icons';
 
 const PageLoading: React.FC<{}> = () => (
-  <div className={style.loadwrap}>
-    正在加载 . . .
+  <div className={style.load_wrap}>
+    <LoadingOutlined style={{
+      'fontSize': '66px'
+    }} />
+    <p className={style.load_text}>加载中 . . .</p>
   </div>
 );
 

@@ -146,5 +146,5 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 export default connect(({ global, settings, user }: ConnectState) => ({
   collapsed: global.collapsed,
   settings,
-  menuData: user.menuData
+  menuData: user.menuData 
 }))(BasicLayout);
